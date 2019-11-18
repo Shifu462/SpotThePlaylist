@@ -22,8 +22,8 @@
 
 built/
 node_modules/
-SpotThePlaylist.Web/wwwroot/dist/
-/SpotThePlaylist.Web/package-lock.json
+wwwroot/dist/
+package-lock.json
 .idea/
 *.js.map
 *.js
