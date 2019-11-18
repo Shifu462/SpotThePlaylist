@@ -27,3 +27,5 @@ package-lock.json
 .idea/
 *.js.map
 *.js
+
+!webpack.config.js
