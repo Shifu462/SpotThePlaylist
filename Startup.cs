@@ -41,17 +41,6 @@ namespace SpotThePlaylist.Web
             {
                 routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Root", action = "Root" });
             });
-
-			var typeProvider = new FileExtensionContentTypeProvider();
-			typeProvider.Mappings[".less"] = "text/css";
-
-			app.UseStaticFiles(new StaticFileOptions
-			{
-				FileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory() + "/Assets"),
-				ContentTypeProvider = typeProvider,
-				RequestPath = "/Assets"
-            });
-
 		}
 	}
 }
