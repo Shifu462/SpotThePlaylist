@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <Target Name="PrePublishTarget" AfterTargets="Publish">
-        <Exec Command="npm run build" />
+        <!-- <Exec Command="npm run build" /> -->
     </Target>
 
 </Project>
