@@ -1,11 +1,9 @@
 using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using SpotifyAPI.Web;
 using SpotThePlaylist.Web.Extensions;
 
 namespace SpotThePlaylist.Web.Api
@@ -26,34 +24,30 @@ namespace SpotThePlaylist.Web.Api
 
         public async Task<IActionResult> GetRandomPic([FromQuery] string token)
         {
-            using var http = new HttpClient();
+            var api = new SpotifyWebAPI
+            {
+                AccessToken = token,
+                TokenType = "Bearer",
+            };
 
-            http.DefaultRequestHeaders.Add(
-                "Authorization", "Bearer " + token);
+            var savedTracks = await api.GetSavedTracksAsync(50, market: "RU");
 
-            var resp = await http.GetAsync("https://api.spotify.com/v1/me/tracks?limit=50");
+            if (savedTracks.HasError()) return BadRequest(savedTracks.Error.Message);
 
-            if (resp.StatusCode != HttpStatusCode.OK) return BadRequest();
+            var song = savedTracks.Items.GetRandom().Track;
 
-            var likedTracksJToken = JToken.Parse(await resp.Content.ReadAsStringAsync());
+            var artist = song.Artists.GetRandom();
+            var artistFull = await api.GetArtistAsync(artist.Id);
 
-            var song = likedTracksJToken["items"].GetRandom()["track"];
+            var biggestImage = artistFull.Images
+                             .OrderByDescending(img => img.Width)
+                             .ThenByDescending(img => img.Height)
+                             .FirstOrDefault();
 
-            var artistId = song["artists"]
-                            .Select(artist => artist["id"].ToString())
-                            .GetRandom();
-
-            var artistResp = await http.GetAsync("https://api.spotify.com/v1/artists/" + artistId);
-
-            var artistJToken = JToken.Parse(await artistResp.Content.ReadAsStringAsync());
-            var url = artistJToken["images"]
-                            .OrderByDescending(img => img["width"])
-                            .ThenByDescending(img => img["height"])
-                            .FirstOrDefault()
-                            ?["url"].ToString();
+            var biggestImageUrl = biggestImage?.Url;
 
             return Ok(
-                new { backgroundUrl = url });
+                new { backgroundUrl = biggestImageUrl });
         }
     }
 }
