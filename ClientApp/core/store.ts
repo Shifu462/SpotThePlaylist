@@ -20,6 +20,10 @@ export default new Vuex.Store({
         updateToken(state, token) {
             state.token = token;
             localStorage.setItem('spotify-token', token);
+        },
+        removeToken(state) {
+            state.token = '';
+            localStorage.removeItem('spotify-token');
         }
     }
 });

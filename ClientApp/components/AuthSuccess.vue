@@ -25,6 +25,12 @@ export default class AuthSuccess extends Vue {
         }
 
         this.$store.commit('updateToken', this.token);
+
+        setTimeout(() => {
+            this.$router.push({
+                path: '/playlist'
+            });
+        }, 1500); // ждём.... (зачем?....)
     }
 }
 

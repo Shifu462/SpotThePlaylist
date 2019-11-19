@@ -1,13 +1,19 @@
 <template>
     <section>
 
-        <div class="login-form" v-if="!$store.getters.isLoggedIn">
-            <div class="note-warn">У вас отсутствует печенье.</div>
+        <div class="login-form" >
+            <template v-if="!$store.getters.isLoggedIn">
+                <div class="note-warn">У вас не сохранён токен.</div>
 
-            <button class="spotify-button" @click="goToSpotifyAuth">
-                Получить печенье
-            </button>
-
+                <button class="spotify-button" @click="goToSpotifyAuth">
+                    Получить
+                </button>
+            </template>
+            <template v-else>
+                <button class="spotify-button" @click="removeToken">
+                    Выход
+                </button>
+            </template>
         </div>
 
     </section>
@@ -19,13 +25,8 @@ import Spotify from '../utils/Spotify';
 
 @Component({})
 export default class AuthorizationPanel extends Vue {
-    created() {
-        if (this.$store.getters.isLoggedIn) {
-            this.$router.push({
-                path: '/playlist',
-            });
-            return;
-        }
+    removeToken() {
+        this.$store.commit('removeToken');
     }
 
     goToSpotifyAuth() {
