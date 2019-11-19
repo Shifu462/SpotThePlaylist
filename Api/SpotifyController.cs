@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
 using SpotThePlaylist.Web.Extensions;
+using SpotThePlaylist.Web.ViewModels;
 
 namespace SpotThePlaylist.Web.Api
 {
@@ -12,6 +13,25 @@ namespace SpotThePlaylist.Web.Api
         public IActionResult IsTokenValid([FromQuery] string token)
         {
             return Ok();
+        }
+
+        public async Task<IActionResult> GetRecent([FromQuery] string token)
+        {
+            var api = new SpotifyWebAPI
+            {
+                AccessToken = token,
+                TokenType = "Bearer",
+            };
+
+            var recentTracks = await api.GetUsersRecentlyPlayedTracksAsync(50);
+
+            if (recentTracks.HasError()) return BadRequest(recentTracks.Error.Message);
+            
+            var tracks = recentTracks.Items
+                                .Select(x => TrackViewModel.FromSimpleTrack(x.Track, x.PlayedAt))
+                                .ToArray();
+
+            return Ok(new TrackListViewModel { Tracks = tracks });
         }
 
         public async Task<IActionResult> GetRandomPicture([FromQuery] string token)

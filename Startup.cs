@@ -1,11 +1,10 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace SpotThePlaylist.Web
 {
@@ -27,7 +26,13 @@ namespace SpotThePlaylist.Web
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
 
-            services.AddMvc();
+            services.AddMvc()
+                    .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        options.SerializerSettings.DateParseHandling = DateParseHandling.DateTimeOffset;
+                    });
         }
 		
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

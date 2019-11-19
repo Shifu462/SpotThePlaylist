@@ -4,6 +4,7 @@ enum Endpoints {
     Authorize = 'https://accounts.spotify.com/authorize?',
 
     RandomPic = '/api/Spotify/GetRandomPicture?',
+    Recent = '/api/Spotify/GetRecent?',
 }
 
 export default class Spotify {
@@ -15,7 +16,7 @@ export default class Spotify {
         + 'client_id=' + Spotify.clientId
         + '&redirect_uri=' + Spotify.redirectUri
         + '&response_type=token'
-        + '&scope=user-read-playback-state user-library-read';
+        + '&scope=user-read-playback-state user-library-read user-read-recently-played';
 
     Token: string;
 
@@ -32,9 +33,16 @@ export default class Spotify {
     async getRandomBackgroundUrl(): Promise<string | null> {
         const {data} = await this.get(Endpoints.RandomPic);
 
-        console.log(data);
         if (!data || !data.backgroundUrl) return null;
 
         return data.backgroundUrl;
+    }
+
+    async getRecentTracks(): Promise<any[]> {
+        const {data} = await this.get(Endpoints.Recent);
+
+        if (!data || !data.Tracks || !data.Tracks.length) return [];
+
+        return data.Tracks;
     }
 }

@@ -9,15 +9,15 @@
                 <th>Альбом</th>
             </tr>
 
-            <tr class="song-row" v-for="song in songsLoaded" :key="song.author + song.name">
+            <tr class="song-row" v-for="song in songs" :key="song.Author + song.Name">
                 <td class="author">
-                    {{ song.author }}
+                    {{ song.Author }}
                 </td>
                 <td class="name">
-                    {{ song.name }}
+                    {{ song.Name }}
                 </td>
-                <td class="duration">
-                    {{ song.duration }}
+                <td class="album">
+                    {{ song.Album }}
                 </td>
             </tr>
 
@@ -31,44 +31,23 @@ import { Vue, Component } from "vue-property-decorator";
 import Spotify from "../utils/Spotify";
 
 interface Song {
-    author: string;
-    name: string;
-    duration: string;
+    Author: string;
+    Name: string;
+    Album: string;
 }
 
 @Component({})
 export default class PlaylistTable extends Vue {
-    songsLoaded: Song[] = [
-        {
-            author: 'Skeleton Hands',
-            name: 'Shadows',
-            duration: '6:10',
-        },
-        {
-            author: 'Skeleton Hands',
-            name: 'Oxygen',
-            duration: '5:38',
-        },
-        {
-            author: 'Skeleton Hands',
-            name: 'Ravage',
-            duration: '4:49',
-        },
-        {
-            author: 'Кобыла и Трупоглазые Жабы Искали Цезию, Нашли Поздно Утром Свистящего Хна',
-            name: 'Распад Петросовета',
-            duration: '5:25',
-        },
-    ];
+    songs: Song[] = [];
 
     spotify = new Spotify(this.$store.getters.token);
 
-
     async created() {
-
         const backgroundUrl = await this.spotify.getRandomBackgroundUrl();
 
         if (backgroundUrl) this.$emit('backgroundUrl', backgroundUrl);
+
+        this.songs = await this.spotify.getRecentTracks();
     }
 }
 
@@ -103,10 +82,6 @@ export default class PlaylistTable extends Vue {
 
                 padding: 5px 15px;
                 max-width: 350px;
-
-                &.duration {
-                    max-width: 30px;
-                }
             }
 
             &:hover {
