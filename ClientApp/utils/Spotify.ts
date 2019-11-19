@@ -3,7 +3,7 @@ import axios from 'axios';
 enum Endpoints {
     Authorize = 'https://accounts.spotify.com/authorize?',
 
-    RandomPic = '/api/Spotify/GetRandomPic?',
+    RandomPic = '/api/Spotify/GetRandomPicture?',
 }
 
 export default class Spotify {

@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpotifyAPI.Web;
@@ -16,13 +14,7 @@ namespace SpotThePlaylist.Web.Api
             return Ok();
         }
 
-        private string Base64Encode(string plainText)
-        {
-            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-            return Convert.ToBase64String(plainTextBytes);
-        }
-
-        public async Task<IActionResult> GetRandomPic([FromQuery] string token)
+        public async Task<IActionResult> GetRandomPicture([FromQuery] string token)
         {
             var api = new SpotifyWebAPI
             {
