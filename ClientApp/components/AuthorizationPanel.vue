@@ -13,6 +13,9 @@
                 <button class="spotify-button" @click="removeToken">
                     Выход
                 </button>
+                <router-link class="spotify-button" to="/playlist">
+                    К музыке
+                </router-link>
             </template>
         </div>
 

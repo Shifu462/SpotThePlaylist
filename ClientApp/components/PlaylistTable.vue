@@ -38,16 +38,22 @@ interface Song {
 
 @Component({})
 export default class PlaylistTable extends Vue {
-    songs: Song[] = [];
+    loadedSongs: Song[] = [];
 
     spotify = new Spotify(this.$store.getters.token);
+
+    get songs(): Song[] {
+        if (!this.loadedSongs) return [];
+
+        return this.loadedSongs.slice(0, 20);
+    }
 
     async created() {
         const backgroundUrl = await this.spotify.getRandomBackgroundUrl();
 
         if (backgroundUrl) this.$emit('backgroundUrl', backgroundUrl);
 
-        this.songs = await this.spotify.getRecentTracks();
+        this.loadedSongs = await this.spotify.getRecentTracks();
     }
 }
 
@@ -58,7 +64,7 @@ export default class PlaylistTable extends Vue {
     .playlist-root {
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
-        background-color: rgba(255, 255, 255, 0.2); 
+        background-color: rgba(0, 0, 0, 0.35); 
 
         padding: 30px;
     }
