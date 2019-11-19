@@ -6,7 +6,8 @@
                     mode="out-in"
                     enter-active-class="animated fadeInLeft" 
                     leave-active-class="animated fadeOutRight">
-		    <router-view></router-view>
+		    <router-view
+                @backgroundUrl="changeBackground"/>
         </transition>
 	</div>
 
@@ -17,7 +18,9 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({})
 export default class AppComponent extends Vue {
-
+    changeBackground(url: string) {
+        this.$el.setAttribute("style", `background: center url(${url}) no-repeat`);
+    }
 }
 
 </script>

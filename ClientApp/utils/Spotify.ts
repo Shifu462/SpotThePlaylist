@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-enum SpotifyEndpoints {
+enum Endpoints {
     Authorize = 'https://accounts.spotify.com/authorize?',
-    CurrentlyPlaying = 'https://api.spotify.com/v1/me/player/currently-playing?',
+
+    RandomPic = '/api/Spotify/GetRandomPic?',
 }
 
 export default class Spotify {
@@ -10,11 +11,11 @@ export default class Spotify {
     private static readonly redirectUri = 'https://spot-the-playlist.herokuapp.com/auth-success';
 
     static readonly AuthLink =
-        SpotifyEndpoints.Authorize
+        Endpoints.Authorize
         + 'client_id=' + Spotify.clientId
         + '&redirect_uri=' + Spotify.redirectUri
         + '&response_type=token'
-        + '&scope=user-read-playback-state';
+        + '&scope=user-read-playback-state user-library-read';
 
     Token: string;
 
@@ -24,16 +25,16 @@ export default class Spotify {
         this.Token = token;
     }
 
-    get(url: string | SpotifyEndpoints) {
-        return axios.get(url + 'access_token=' + this.Token);
+    get(url: string | Endpoints) {
+        return axios.get(url + 'token=' + this.Token);
     }
 
-    async getCurrentlyPlaying(): Promise<any> {
-        const {data} = await this.get(SpotifyEndpoints.CurrentlyPlaying);
+    async getRandomBackgroundUrl(): Promise<string | null> {
+        const {data} = await this.get(Endpoints.RandomPic);
 
         console.log(data);
-        if (!data || !data.item) return null;
+        if (!data || !data.backgroundUrl) return null;
 
-        return data.item;
+        return data.backgroundUrl;
     }
 }

@@ -1,10 +1,5 @@
 <template>
-    <section>
-
-        <div v-if="currentlyPlaying">
-            {{ currentlyPlaying.artists.map(x => x.name).join(', ') }}:
-            {{ currentlyPlaying.name }}
-        </div>
+    <section class="playlist-root">
 
         <table class="playlist">
 
@@ -68,16 +63,27 @@ export default class PlaylistTable extends Vue {
 
     spotify = new Spotify(this.$store.getters.token);
 
-    currentlyPlaying: any = null;
 
     async created() {
-        this.currentlyPlaying = await this.spotify.getCurrentlyPlaying();
+
+        const backgroundUrl = await this.spotify.getRandomBackgroundUrl();
+
+        if (backgroundUrl) this.$emit('backgroundUrl', backgroundUrl);
     }
 }
 
 </script>
 
 <style lang="less">
+
+    .playlist-root {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2); 
+
+        padding: 30px;
+    }
+
     .playlist {
         table-layout: fixed;
 
