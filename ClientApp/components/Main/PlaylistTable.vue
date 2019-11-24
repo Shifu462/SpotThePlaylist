@@ -1,6 +1,12 @@
 <template>
     <section class="playlist-root">
 
+        <button @click="refreshAll" class="spotify-button">
+            <font-awesome-icon
+                icon="sync"
+                class="refresh-button"/>
+        </button>
+
         <table class="playlist">
 
             <tr>
@@ -27,12 +33,14 @@
             save playlist
         </button>
 
+
     </section>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import Spotify from "../../utils/Spotify";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 interface Song {
     Id: string;
@@ -53,19 +61,27 @@ export default class PlaylistTable extends Vue {
         return this.loadedSongs.slice(0, 20);
     }
 
-    async created() {
+    created() {
+        this.refreshAll();
+    }
+
+    async refreshAll() {
+        this.refreshBackground();
+        this.refreshRecommendations();
+    }
+
+    async refreshBackground() {
         const backgroundUrl = await this.spotify.getRandomBackgroundUrl();
+        this.$emit('backgroundUrl', backgroundUrl);
+    }
 
-        if (backgroundUrl) this.$emit('backgroundUrl', backgroundUrl);
-
+    async refreshRecommendations() {
+        this.loadedSongs = [];
         this.loadedSongs = await this.spotify.getNewPlaylist();
     }
 
     async getAndSavePlaylist() {
-        debugger;
-        const a = await this.spotify.createPlaylist(this.loadedSongs.map(x => x.Id));
-
-        alert(a);
+        await this.spotify.createPlaylist(this.loadedSongs.map(x => x.Id));
     }
 }
 
@@ -76,13 +92,20 @@ export default class PlaylistTable extends Vue {
     .playlist-root {
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
-        background-color: rgba(0, 0, 0, 0.35); 
+        background-color: rgba(0, 0, 0, 0.35);
 
         padding: 30px;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
     }
 
     .playlist {
         table-layout: fixed;
+
+        min-width: 500px;
 
         th {
             text-transform: uppercase;
@@ -106,6 +129,10 @@ export default class PlaylistTable extends Vue {
                 background-color: rgba(255, 255, 255, 0.1);
             }
         }
+    }
+
+    .refresh-button {
+        padding: 0 5px;
     }
 
 </style>
