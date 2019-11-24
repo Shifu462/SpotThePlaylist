@@ -6,16 +6,15 @@ Vue.use(VueRouter);
 Vue.config.productionTip = false;
 
 import AppComponent from './components/App.vue';
-import AuthorizationPanel from "./components/AuthorizationPanel.vue";
-import PlaylistTable from './components/PlaylistTable.vue';
+import AuthIndex from './components/Auth/AuthIndex.vue';
 import AuthSuccess from './components/AuthSuccess.vue';
+import MainIndex from './components/Main/MainIndex.vue';
 
 const router = new VueRouter({
 	mode: 'history',
 	routes: [
-		{ path: '/', redirect: '/auth' },
-		{ path: '/auth', component: AuthorizationPanel },
-        { path: '/playlist', component: PlaylistTable }, // сжечь
+		{ path: '/', component: MainIndex },
+		{ path: '/auth', component: AuthIndex },
         { 
             path: '/auth-success',
             component: AuthSuccess,

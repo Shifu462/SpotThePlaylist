@@ -13,7 +13,7 @@
                 <button class="spotify-button" @click="removeToken">
                     Выход
                 </button>
-                <router-link class="spotify-button" to="/playlist">
+                <router-link class="spotify-button" to="/">
                     К музыке
                 </router-link>
             </template>
@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import Spotify from '../utils/Spotify';
+import Spotify from '../../utils/Spotify';
 
 @Component({})
 export default class AuthorizationPanel extends Vue {

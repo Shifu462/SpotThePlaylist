@@ -1,19 +1,11 @@
 :root {
-    --spotify-black: #121212;;
-    --spotify-green: #1ed760;
+    --spotify-black: #121212;
+    --spotify-bar-black: #181818;
     --spotify-green: #1ed760;
     --spotify-inactive: #b3b3b3;
 }
 
 body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	width: 100%;
-    height: 100%;
-    position: absolute;
-
     background-color: var(--spotify-black);
     color: white;
 	
@@ -23,7 +15,6 @@ body {
 
 .spotify-button {
     background-color: var(--spotify-green);
-    // color: var(--spotify-inactive);
     color: white;
     font-size: 22px;
     font-weight: bold;
@@ -32,7 +23,6 @@ body {
     padding: 10px 15px;
     border-radius: 25px;
 
-    // transition: color 250ms;
     &:hover {
         color: white;
     }

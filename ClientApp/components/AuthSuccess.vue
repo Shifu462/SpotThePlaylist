@@ -28,7 +28,7 @@ export default class AuthSuccess extends Vue {
 
         setTimeout(() => {
             this.$router.push({
-                path: '/playlist'
+                path: '/'
             });
         }, 1500); // ждём.... (зачем?....)
     }

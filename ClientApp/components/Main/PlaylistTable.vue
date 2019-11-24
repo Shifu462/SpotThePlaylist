@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import Spotify from "../utils/Spotify";
+import Spotify from "../../utils/Spotify";
 
 interface Song {
     Author: string;
