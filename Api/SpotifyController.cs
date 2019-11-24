@@ -152,11 +152,11 @@ namespace SpotThePlaylist.Web.Api
                 TokenType = "Bearer",
             };
 
-            var savedTracks = await api.GetSavedTracksAsync(50, market: "US");
+            var recentTracks = await api.GetUsersRecentlyPlayedTracksAsync(50);
 
-            if (savedTracks.HasError()) return BadRequest(savedTracks.Error.Message);
+            if (recentTracks.HasError()) return BadRequest(recentTracks.Error.Message);
 
-            var song = savedTracks.Items.GetRandom().Track;
+            var song = recentTracks.Items.GetRandom().Track;
 
             var artist = song.Artists.GetRandom();
             var artistFull = await api.GetArtistAsync(artist.Id);
