@@ -1,11 +1,11 @@
 ﻿{
-	"buildOnSave": true,
-	"compilerOptions": {
-		"sourceMap": true,
-		"strict": true,
-		"module": "es6",
-		"moduleResolution": "node",
-		"target": "es6",
-		"experimentalDecorators": true
-	}
+    "buildOnSave": true,
+    "compilerOptions": {
+        "sourceMap": true,
+        "strict": true,
+        "module": "es6",
+        "moduleResolution": "node",
+        "target": "es6",
+        "experimentalDecorators": true
+    }
 }

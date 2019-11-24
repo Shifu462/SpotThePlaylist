@@ -5,7 +5,7 @@
 
         <AppContent class="content" @backgroundUrl="changeBackground" />
 
-	</div>
+    </div>
 </template>
 
 <script lang="ts">

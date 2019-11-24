@@ -17,10 +17,10 @@ import AuthSuccess from './components/AuthSuccess.vue';
 import MainIndex from './components/Main/MainIndex.vue';
 
 const router = new VueRouter({
-	mode: 'history',
-	routes: [
-		{ path: '/', component: MainIndex },
-		{ path: '/auth', component: AuthIndex },
+    mode: 'history',
+    routes: [
+        { path: '/', component: MainIndex },
+        { path: '/auth', component: AuthIndex },
         { 
             path: '/auth-success',
             component: AuthSuccess,
@@ -33,11 +33,11 @@ const router = new VueRouter({
                 }
             },
         },
-	]
+    ]
 });
 
 export default new Vue( {
-	el: "#app-root",
+    el: "#app-root",
     render: h => h(AppComponent),
     router,
     store,
