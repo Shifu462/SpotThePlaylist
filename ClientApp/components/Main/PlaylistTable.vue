@@ -9,7 +9,7 @@
                 <th>Альбом</th>
             </tr>
 
-            <tr class="song-row" v-for="song in songs" :key="song.Author + song.Name">
+            <tr class="song-row" v-for="song in displayedSongs" :key="song.Author + song.Name">
                 <td class="author">
                     {{ song.Author }}
                 </td>
@@ -23,6 +23,10 @@
 
         </table>
 
+        <button @click="getAndSavePlaylist" class="spotify-button">
+            save playlist
+        </button>
+
     </section>
 </template>
 
@@ -31,6 +35,7 @@ import { Vue, Component } from "vue-property-decorator";
 import Spotify from "../../utils/Spotify";
 
 interface Song {
+    Id: string;
     Author: string;
     Name: string;
     Album: string;
@@ -42,7 +47,7 @@ export default class PlaylistTable extends Vue {
 
     spotify = new Spotify(this.$store.getters.token);
 
-    get songs(): Song[] {
+    get displayedSongs(): Song[] {
         if (!this.loadedSongs) return [];
 
         return this.loadedSongs.slice(0, 20);
@@ -53,7 +58,14 @@ export default class PlaylistTable extends Vue {
 
         if (backgroundUrl) this.$emit('backgroundUrl', backgroundUrl);
 
-        this.loadedSongs = await this.spotify.getRecentTracks();
+        this.loadedSongs = await this.spotify.getNewPlaylist();
+    }
+
+    async getAndSavePlaylist() {
+        debugger;
+        const a = await this.spotify.createPlaylist(this.loadedSongs.map(x => x.Id));
+
+        alert(a);
     }
 }
 

@@ -12,6 +12,7 @@ namespace SpotThePlaylist.Web.ViewModels
 
     public class TrackViewModel
     {
+        public string Id { get; private set; }
         public string Author { get; private set; }
         public string Name { get; private set; }
         public string Album { get; private set; }
@@ -23,6 +24,7 @@ namespace SpotThePlaylist.Web.ViewModels
 
             return new TrackViewModel
             {
+                Id = track.Id,
                 Name = track.Name,
                 Author = string.Join(", ", authorNames),
                 Album = track.Type, /// а где альбом
