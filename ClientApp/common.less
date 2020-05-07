@@ -6,12 +6,12 @@
 }
 
 body {
-    background-color: var(--spotify-black);
+    background-color: black;
     color: white;
-    
+
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
-    
+
     overflow-x: hidden;
 }
 
@@ -30,11 +30,15 @@ body {
     }
 }
 
+.inactive {
+    background: var(--spotify-inactive);
+}
+
 .note-warn {
     padding: 15px 25px;
     padding-left: 45px;
     border: 1px solid var(--spotify-green);
-    
+
     font-size: 16px;
 
     position: relative;
@@ -45,7 +49,7 @@ body {
 
         border-radius: 50%;
         border: 1px solid var(--spotify-inactive);
-        
+
         @excSize: 24px;
         width: @excSize;
         height: @excSize;

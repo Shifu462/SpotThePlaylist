@@ -1,11 +1,12 @@
 ﻿import Vue from "vue";
 import VueRouter from "vue-router";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSync } from '@fortawesome/free-solid-svg-icons'
+import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { faSync, faSave } from '@fortawesome/free-solid-svg-icons'
+import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import store from './core/store';
 
-library.add(faSync);
+library.add(faSync, faSave, faSpotify as IconDefinition);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(VueRouter);
@@ -21,13 +22,13 @@ const router = new VueRouter({
     routes: [
         { path: '/', component: MainIndex },
         { path: '/auth', component: AuthIndex },
-        { 
+        {
             path: '/auth-success',
             component: AuthSuccess,
             props: (route) => {
                 const results = /#access_token=(.+)&token_type=(\w+)&/g
                                     .exec(route.hash);
-                
+
                 if (results && results.length >= 1) {
                     return { token: results[1] };
                 }

@@ -5,7 +5,8 @@
         </router-link>
 
         <router-link class="nav-main-item" to="/" v-if="hasToken">
-            Main
+            <font-awesome-icon :icon="['fab', 'spotify']" class="icon" />
+            <span>Find something new!</span>
         </router-link>
     </nav>
 </template>
@@ -27,7 +28,6 @@ export default class AppNavbar extends Vue {
         width: 100%;
 
         z-index: 100;
-        padding: 20px 0;
         padding-left: 40px;
 
         background-color: var(--spotify-bar-black);
@@ -35,9 +35,19 @@ export default class AppNavbar extends Vue {
     }
 
     .nav-main-item {
-        font-size: 16px;
-        color: white;
+        display: inline-block;
 
-        padding: 0 5px;
+        color: white;
+        font-size: 16px;
+
+        padding: 20px 10px;
+
+        .icon {
+            margin-right: 5px;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     }
 </style>

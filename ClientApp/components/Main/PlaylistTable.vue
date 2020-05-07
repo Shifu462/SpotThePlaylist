@@ -1,11 +1,15 @@
 <template>
     <section class="playlist-root">
 
-        <button @click="refreshAll" class="spotify-button">
-            <font-awesome-icon
-                icon="sync"
-                class="refresh-button"/>
-        </button>
+        <section>
+            <button @click="refreshAll" class="spotify-button" :class="{ inactive: isRefreshing }">
+                <font-awesome-icon icon="sync" class="icon" />
+            </button>
+
+            <button @click="getAndSavePlaylist" class="spotify-button" :class="{ inactive: isRefreshing || isSaved }">
+                <font-awesome-icon icon="save" class="icon" />
+            </button>
+        </section>
 
         <table class="playlist">
 
@@ -29,11 +33,6 @@
 
         </table>
 
-        <button @click="getAndSavePlaylist" class="spotify-button">
-            save playlist
-        </button>
-
-
     </section>
 </template>
 
@@ -51,49 +50,58 @@ interface Song {
 
 @Component({})
 export default class PlaylistTable extends Vue {
-    loadedSongs: Song[] = [];
+    isRefreshing = false;
+    isSaved = true;
 
-    spotify = new Spotify(this.$store.getters.token);
+    recommendedTracks: Song[] = [];
+
+    readonly spotify = new Spotify(this.$store.getters.token);
 
     get displayedSongs(): Song[] {
-        if (!this.loadedSongs) return [];
+        if (!this.recommendedTracks) return [];
 
-        return this.loadedSongs.slice(0, 20);
+        return this.recommendedTracks.slice(0, 20);
     }
 
-    created() {
-        this.refreshAll();
+    async created() {
+        await this.refreshAll();
     }
 
     async refreshAll() {
-        this.refreshBackground();
-        this.refreshRecommendations();
-    }
+        if (this.isRefreshing) return;
 
-    async refreshBackground() {
-        const backgroundUrl = await this.spotify.getRandomBackgroundUrl();
-        this.$emit('backgroundUrl', backgroundUrl);
-    }
+        const refreshBackground = async () => {
+            const backgroundUrl = await this.spotify.getRandomBackgroundUrl();
+            this.$emit('backgroundUrl', backgroundUrl);
+        }
 
-    async refreshRecommendations() {
-        this.loadedSongs = [];
-        this.loadedSongs = await this.spotify.getNewPlaylist();
+        const refreshRecommendations = async () => {
+            this.isRefreshing = true;
+
+            this.recommendedTracks = [];
+            this.recommendedTracks = await this.spotify.getNewPlaylist();
+
+            this.isRefreshing = false;
+            this.isSaved = false;
+        }
+
+        refreshBackground();
+        await refreshRecommendations();
     }
 
     async getAndSavePlaylist() {
-        await this.spotify.createPlaylist(this.loadedSongs.map(x => x.Id));
+        if (this.isRefreshing || this.isSaved) return;
+
+        await this.spotify.createPlaylist(this.recommendedTracks.map(x => x.Id));
+        this.isSaved = true;
     }
 }
 
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 
     .playlist-root {
-        -webkit-backdrop-filter: blur(10px);
-        backdrop-filter: blur(10px);
-        background-color: rgba(0, 0, 0, 0.35);
-
         padding: 30px;
 
         display: flex;
@@ -103,9 +111,11 @@ export default class PlaylistTable extends Vue {
     }
 
     .playlist {
+        position: relative;
         table-layout: fixed;
 
         min-width: 500px;
+        max-width: 900px;
 
         th {
             text-transform: uppercase;
@@ -131,7 +141,7 @@ export default class PlaylistTable extends Vue {
         }
     }
 
-    .refresh-button {
+    .spotify-button .icon {
         padding: 0 5px;
     }
 

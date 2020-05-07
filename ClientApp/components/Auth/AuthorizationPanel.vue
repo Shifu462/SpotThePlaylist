@@ -1,24 +1,21 @@
 <template>
-    <section>
+    <section class="login-form">
+        <template v-if="!$store.getters.isLoggedIn">
+            <div class="note-warn">У вас не сохранён токен.</div>
 
-        <div class="login-form">
-            <template v-if="!$store.getters.isLoggedIn">
-                <div class="note-warn">У вас не сохранён токен.</div>
-
-                <button class="spotify-button" @click="goToSpotifyAuth">
-                    Получить
-                </button>
-            </template>
-            <template v-else>
-                <button class="spotify-button" @click="removeToken">
-                    Выход
-                </button>
-                <router-link class="spotify-button" to="/">
-                    К музыке
-                </router-link>
-            </template>
-        </div>
-
+            <button class="spotify-button" @click="goToSpotifyAuth">
+                Получить
+            </button>
+        </template>
+        <template v-else>
+            <button class="spotify-button" @click="removeToken">
+                Выход
+            </button>
+            <router-link class="spotify-button" to="/">
+                <font-awesome-icon :icon="['fab', 'spotify']" />
+                <span>К музыке</span>
+            </router-link>
+        </template>
     </section>
 </template>
 

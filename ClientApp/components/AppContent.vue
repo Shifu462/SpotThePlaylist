@@ -33,6 +33,8 @@
 // ---
 
 .page-content {
+    padding-top: 60px; // отступить от навбара немного
+
     width: 100%;
     height: 100%;
 

@@ -33,6 +33,7 @@ export default Vue.extend({
     .root {
         width: 100%;
         height: 100%;
+        // height: calc(100vh - 60px);
 
         background-position: center;
         background-repeat: no-repeat;
@@ -41,11 +42,5 @@ export default Vue.extend({
     .navbar {
         position: fixed;
         top: 0;
-    }
-
-    .content {
-        padding-top: 60px;
-        width: 100%;
-        height: 100%;
     }
 </style>

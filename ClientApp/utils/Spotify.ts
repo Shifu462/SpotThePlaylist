@@ -68,7 +68,6 @@ export default class Spotify {
     }
 
     async createPlaylist(trackIds: string[], playlistName?: string): Promise<any> {
-        debugger
         const {data} = await this.post(Endpoints.CreatePlaylist, {trackIds, playlistName});
 
         return data;

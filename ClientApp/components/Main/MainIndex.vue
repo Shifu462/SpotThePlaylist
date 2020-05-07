@@ -21,5 +21,9 @@ export default Vue.extend({
     .root {
         width: 100%;
         height: 100%;
+
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: rgba(0, 0, 0, 0.35);
     }
 </style>
