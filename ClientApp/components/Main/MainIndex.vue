@@ -1,21 +1,19 @@
-<template>
-    <div class="root">
-        <PlaylistTable @backgroundUrl="$emit('backgroundUrl', $event)" />
-    </div>
-</template>
-
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import PlaylistTable from './PlaylistTable.vue';
 
-@Component({
-    components: {
-        PlaylistTable,
+export default Vue.extend({
+    functional: true,
+    render(h, ctx) {
+        return h('div', { staticClass: 'root' }, [
+            h(PlaylistTable, {
+                on: {
+                    backgroundUrl: url => (ctx.listeners['backgroundUrl'] as Function)(url),
+                }
+            }),
+        ]);
     }
-})
-export default class MainIndex extends Vue {
-
-}
+});
 
 </script>
 

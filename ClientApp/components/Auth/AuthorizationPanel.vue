@@ -1,7 +1,7 @@
 <template>
     <section>
 
-        <div class="login-form" >
+        <div class="login-form">
             <template v-if="!$store.getters.isLoggedIn">
                 <div class="note-warn">У вас не сохранён токен.</div>
 

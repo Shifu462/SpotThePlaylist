@@ -1,4 +1,4 @@
-<template>
+<template functional>
     <div class="page-content">
 
         <transition name="router-anim"
@@ -6,19 +6,11 @@
                     enter-active-class="animated fadeInLeft"
                     leave-active-class="animated fadeOutRight">
             <router-view
-                @backgroundUrl="$emit('backgroundUrl', $event)" />
+                @backgroundUrl="listeners['backgroundUrl']($event)" />
         </transition>
+
     </div>
 </template>
-
-<script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-
-@Component({})
-export default class AppContent extends Vue {
-}
-
-</script>
 
 <style lang="less">
 

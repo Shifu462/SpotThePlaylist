@@ -1,21 +1,15 @@
-<template>
-    <div class="root">
-        <AuthorizationPanel />
-    </div>
-</template>
-
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import Vue from 'vue';
 import AuthorizationPanel from './AuthorizationPanel.vue';
 
-@Component({
-    components: {
-        AuthorizationPanel,
+export default Vue.extend({
+    functional: true,
+    render(h) {
+        return h('div', { staticClass: 'root' }, [
+            h(AuthorizationPanel),
+        ]);
     }
-})
-export default class AuthIndex extends Vue {
-
-}
+});
 
 </script>
 

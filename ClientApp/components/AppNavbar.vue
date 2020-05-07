@@ -24,8 +24,6 @@ export default class AppNavbar extends Vue {
 
 <style lang="less" scoped>
     .nav-main {
-        position: fixed;
-        top: 0;
         width: 100%;
 
         z-index: 100;

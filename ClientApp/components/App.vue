@@ -1,29 +1,31 @@
 ﻿<template>
-    <div class="root">
+    <div class="root" :style="{
+            backgroundImage: backgroundUrl && `url(${backgroundUrl})`
+        }">
 
         <AppNavbar class="navbar" />
 
-        <AppContent class="content" @backgroundUrl="changeBackground" />
+        <AppContent class="content" @backgroundUrl="backgroundUrl = $event" />
 
     </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import Vue from 'vue';
 import AppContent from './AppContent.vue';
 import AppNavbar from './AppNavbar.vue';
 
-@Component({
+export default Vue.extend({
     components: {
         AppContent,
         AppNavbar,
+    },
+    data() {
+        return {
+            backgroundUrl: null,
+        };
     }
-})
-export default class AppComponent extends Vue {
-    changeBackground(url: string) {
-        this.$el.setAttribute("style", `background: center url(${url}) no-repeat`);
-    }
-}
+});
 
 </script>
 
@@ -31,6 +33,14 @@ export default class AppComponent extends Vue {
     .root {
         width: 100%;
         height: 100%;
+
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0;
     }
 
     .content {
