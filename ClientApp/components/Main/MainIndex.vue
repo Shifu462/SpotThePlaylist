@@ -8,7 +8,7 @@ export default Vue.extend({
         return h('div', { staticClass: 'root' }, [
             h(PlaylistTable, {
                 on: {
-                    backgroundUrl: url => (ctx.listeners['backgroundUrl'] as Function)(url),
+                    backgroundUrl: (url?: string) => (ctx.listeners['backgroundUrl'] as Function)(url),
                 }
             }),
         ]);

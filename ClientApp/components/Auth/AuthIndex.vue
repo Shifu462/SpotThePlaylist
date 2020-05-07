@@ -1,4 +1,5 @@
 <script lang="ts">
+
 import Vue from 'vue';
 import AuthorizationPanel from './AuthorizationPanel.vue';
 
